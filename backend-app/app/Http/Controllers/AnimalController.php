@@ -16,13 +16,13 @@ class AnimalController extends Controller
     }
     public function store(Request $request)
     {
-        echo "Menambahkan hewan baru: ";
+        echo "Menambahkan hewan baru: <br>";
         array_push($this->animals, $request->animal);
         $this->index(); 
     }
     public function update(Request $request, $id)
     {
-        echo "Mengupdate data hewan id $id: ";
+        echo "Mengupdate data hewan id $id: <br>";
         if (isset($this->animals[$id])) {
             $this->animals[$id] = $request->animal;
         }
@@ -30,7 +30,7 @@ class AnimalController extends Controller
     }
     public function destroy($id)
     {
-        echo "Menghapus data hewan id $id: ";
+        echo "Menghapus data hewan id $id: <br>";
         if (isset($this->animals[$id])) {
             array_splice($this->animals, $id, 1);
         }
