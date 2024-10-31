@@ -27,12 +27,7 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-        if (!$request->has(['nama', 'nim', 'email', 'jurusan'])) {
-            $data = [
-                'message' => 'Data gagal ditambah'
-            ];
-            return response()->json($data, 404);
-        } else {
+        if ($request->has(['nama', 'nim', 'email', 'jurusan'])) {
             $input = [
                 'nama' => $request->nama,
                 'nim' => $request->nim,
@@ -40,18 +35,16 @@ class StudentController extends Controller
                 'jurusan' => $request->jurusan
             ];
             $student = Student::create($input);
-            if ($student) {
-                $data = [
-                    'message' => 'Data berhasil ditambah',
-                    'data' => $student
-                ];
-                return response()->json($data, 201); 
-            } else {
-                $data = [
-                    'message' => 'Data gagal ditambah.',
-                ];
-                return response()->json($data, 404);
-            }
+            $data = [
+                'message' => 'Data berhasil ditambah',
+                'data' => $student
+            ];
+            return response()->json($data, 201);
+        }else {
+            $data = [
+                'message' => 'Data gagal ditambah.',
+            ];
+            return response()->json($data, 404);
         }
     }
 
