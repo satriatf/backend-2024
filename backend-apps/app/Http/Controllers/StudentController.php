@@ -10,18 +10,18 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::all();
-        if ($students->isEmpty()) {
-            $data = [
-                'message' => 'Data tidak ditemukan',
-                'data' => []
-            ];
-            return response()->json($data, 404);
-        } else {
+        if ($students->isNotEmpty()) {
             $data = [
                 'message' => 'Data berhasil diakses',
                 'data' => $students
             ];
             return response()->json($data, 200);
+        } else {
+            $data = [
+                'message' => 'Data tidak ditemukan',
+                'data' => []
+            ];
+            return response()->json($data, 404);
         }
     }
 
@@ -34,15 +34,17 @@ class StudentController extends Controller
                 'email' => $request->email,
                 'jurusan' => $request->jurusan
             ];
-            $student = Student::create($input);
+            $student = Student::create($input); {
+                $data = [
+                    'message' => 'Data berhasil ditambah',
+                    'data' => $student
+                ];
+                return response()->json($data, 201); 
+            }
+        } else {
             $data = [
-                'message' => 'Data berhasil ditambah',
-                'data' => $student
-            ];
-            return response()->json($data, 201);
-        }else {
-            $data = [
-                'message' => 'Data gagal ditambah.',
+                'message' => 'Data gagal ditambah',
+                'data' => []
             ];
             return response()->json($data, 404);
         }
@@ -53,10 +55,10 @@ class StudentController extends Controller
         $student = Student::find($id);
         if ($student) {
             $input = [
-                'nama' => $request->nama,
-                'nim' => $request->nim,
-                'email' => $request->email,
-                'jurusan' => $request->jurusan
+                'nama' => $request->nama ?? $student->nama,
+                'nim' => $request->nim ?? $student->nim,
+                'email' => $request->email ?? $student->email,
+                'jurusan' => $request->jurusan ?? $student->jurusan
             ];
             $student->update($input);
             $data = [
