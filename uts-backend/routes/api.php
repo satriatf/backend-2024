@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -8,6 +9,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 use App\Http\Controllers\EmployeeController;
+use App\Models\Employee;
 
 // Get All Resource
 Route::get('/employees', [EmployeeController::class, 'index']);
@@ -37,5 +39,11 @@ Route::get('/employees/status/inactive', [EmployeeController::class, 'inactive']
 // Get Terminated Resource
 Route::get('/employees/status/terminated', [EmployeeController::class, 'terminated']);
 
+
+// Route untuk registrasi pengguna baru
+Route::post('/register', [AuthController::class, 'register']);
+
+// Route untuk login pengguna
+Route::post('/login', [AuthController::class, 'login']);
 
 
