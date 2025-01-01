@@ -17,16 +17,20 @@ class StudentController {
 
   // menambahkan keyword async
   async store(req, res) {
-    // memanggil method create
-    const student = await Student.create(req.body);
+        const { nama, nim, email, jurusan } = req.body;
+        // Memanggil method create di model
+        const student = await Student.create(nama, nim, email, jurusan);
 
-    const data = {
-      message: "Menambahkan data student",
-      data: student,
-    };
+        // Membuat objek data yang akan dikirimkan sebagai respons
+        const data = {
+            message: "Menambahkan data student",
+            data: student,
+        };
 
-    res.json(data);
+        // Mengirimkan respons dalam format JSON ke klien
+        res.json(data);
   }
+
 
   update(req, res) {
     const { id } = req.params;
