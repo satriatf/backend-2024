@@ -111,8 +111,8 @@ class AlumniController {
 
   // Mencari alumni berdasarkan nama
   async search(req, res) {
-    const { name } = req.query; // Mendapatkan parameter `name` dari query string
-    const alumni = await Alumni.searchByName(name); // Mencari data alumni berdasarkan nama
+    const { name } = req.query; 
+    const alumni = await Alumni.searchByName(name); 
 
     // Mengirimkan response berdasarkan hasil pencarian
     res.status(alumni.length > 0 ? 200 : 404).json({
@@ -121,19 +121,22 @@ class AlumniController {
     });
   }
 
-
-  // Mendapatkan alumni fresh graduate
+  // memcari alumni berdasarkan status
   async findByStatus(req, res) {
-    const { status } = req.query; // Mendapatkan parameter `status` dari query string
-    const alumni = await Alumni.findByStatus(status); // Mencari data alumni berdasarkan status
-
-    // Mengirimkan response berdasarkan hasil pencarian
-    res.status(alumni.length > 0 ? 200 : 404).json({
-      message: alumni.length > 0 ? `Menampilkan alumni dengan status ${status}` : "Data alumni tidak ditemukan",
-      data: alumni.length > 0 ? alumni : [],
-    });
+    const { status } = req.query; 
+    try {
+      const alumni = await Alumni.findByStatus(status); 
+  
+      // Mengirimkan response berdasarkan hasil pencarian
+      res.status(alumni.length > 0 ? 200 : 404).json({
+        message: alumni.length > 0 ? `Menampilkan alumni dengan status ${status}` : "Data alumni tidak ditemukan",
+        data: alumni.length > 0 ? alumni : [],
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Terjadi kesalahan pada server", error: error.message });
+    }
   }
-}
+}  
 
 // membuat object AlumniController
 const object = new AlumniController();

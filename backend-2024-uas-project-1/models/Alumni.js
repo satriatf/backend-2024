@@ -75,15 +75,15 @@ class Alumni {
   }
 
   // Mendapatkan data alumni berdasarkan status
-  static findByStatus(status) {
+  static async findByStatus(status) {
+    const sql = "SELECT * FROM alumni WHERE status = ?";
     return new Promise((resolve, reject) => {
-      const sql = "SELECT * FROM alumni WHERE status = ?";
-      db.query(sql, status, (err, results) => {
+      db.query(sql, [status], (err, results) => {
         if (err) reject(err);
         resolve(results);
       });
     });
-  }
+  }  
 }
 
 // export class Alumni
